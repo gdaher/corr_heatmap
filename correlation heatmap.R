@@ -3,17 +3,21 @@ library(stats)
 library(Hmisc)
 library(gplots)
 
-data <- read.csv("", 
+#read in data
+data <- read.csv("your_data.csv", 
                  
                   stringsAsFactors = FALSE, header = FALSE,row.names = 1)
 
+#reformat column names if need be, they will be your labels
 colnames(data) <- gsub(pattern = "Results", x = data[1,],replacement = "")
 
+#select the rows of data you want to use
 data <- data.matrix(data[3:26,])
 
-
+#run correlation
 cor.data <- rcorr(data,type = "pearson")
 
+#make heatmap and save to pdf
 pdf(file= "", width = 8.5,height = 10)
 
 heatmap.2(x = cor.data$r,
@@ -27,6 +31,7 @@ heatmap.2(x = cor.data$r,
 
 dev.off()
 
-write.csv(x = cor.data$r, file = "V:/Daher_Grace/For ME/Alm Correlation Heatmap/Copy of 2017-05-3-SGLT2-Patti-Amide_correlations.csv")
-write.csv(x = cor.data$P, file = "V:/Daher_Grace/For ME/Alm Correlation Heatmap/Copy of 2017-05-3-SGLT2-Patti-Amide_correlations_p-value.csv")
+#write r squared and p-values to separate files
+write.csv(x = cor.data$r, file = "V:/correlations.csv")
+write.csv(x = cor.data$P, file = "V:/correlations_p-value.csv")
 
